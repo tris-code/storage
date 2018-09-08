@@ -10,7 +10,7 @@
  ******************************************************************************/
 
 extension Storage {
-    class Container<T: Entity> {
+    public class Container<T: Entity> {
         unowned let storage: Storage
         var items: [T.Key: T]
 
