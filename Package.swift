@@ -19,9 +19,6 @@ let package = Package(
     ],
     dependencies: [
         .package(
-            url: "https://github.com/tris-foundation/reflection.git",
-            .branch("master")),
-        .package(
             url: "https://github.com/tris-foundation/async.git",
             .branch("master")),
         .package(
@@ -44,7 +41,6 @@ let package = Package(
         .target(
             name: "Storage",
             dependencies: [
-                "Reflection",
                 "Async",
                 "File",
                 "Time",
