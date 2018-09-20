@@ -39,7 +39,7 @@ extension Storage.Container: ContainerProtocol {
             throw Persistence.Error.unknownType
         }
         switch record.action {
-        case .insert, .upsert:
+        case .upsert:
             items[item.id] = item
         default:
             items[item.id] = nil

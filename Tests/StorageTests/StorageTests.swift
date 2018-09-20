@@ -86,9 +86,9 @@ final class StorageTests: TestCase {
         let usersKey = Storage.Key(for: User.self)
 
         let records: [WAL.Record] = [
-            .init(key: usersKey, action: .insert, object: user),
-            .init(key: usersKey, action: .insert, object: guest),
-            .init(key: usersKey, action: .insert, object: admin),
+            .init(key: usersKey, action: .upsert, object: user),
+            .init(key: usersKey, action: .upsert, object: guest),
+            .init(key: usersKey, action: .upsert, object: admin),
             .init(key: usersKey, action: .remove, object: guest)
         ]
 

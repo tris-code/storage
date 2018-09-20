@@ -16,9 +16,8 @@ import Stream
 struct WAL {
     struct Record {
         enum Action: String, Codable {
-            case insert
-            case remove
             case upsert
+            case remove
         }
         let key: Storage.Key
         let action: Action
