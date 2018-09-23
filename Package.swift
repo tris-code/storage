@@ -62,6 +62,7 @@ let package = Package(
             name: "Storage",
             dependencies: [
                 "Async",
+                "Fiber",
                 "File",
                 "Time",
                 "JSON",

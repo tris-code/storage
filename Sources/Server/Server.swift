@@ -16,8 +16,7 @@ import Async
 @_exported import Storage
 
 public class Server {
-    let storage: Storage
-
+    let storage: SharedStorage
     var binaryServer: BinaryServer?
     var httpServer: HTTPServer?
 
@@ -31,7 +30,7 @@ public class Server {
     }
 
     public init(for storage: Storage) throws {
-        self.storage = storage
+        self.storage = SharedStorage(for: storage)
         self.httpServer = nil
         self.binaryServer = nil
     }

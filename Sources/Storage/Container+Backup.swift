@@ -9,27 +9,31 @@
  *                                                                            *
  ******************************************************************************/
 
-struct Undo<Model: Entity> {
-    enum Action: Equatable {
-        case delete
-        case restore(Model)
-    }
-    var items: [Model.Key : Action] = [:]
-
-    mutating func append(key: Model.Key, action: Action) {
-        guard items[key] == nil else {
-            return
+extension Storage.Container {
+    struct Backup {
+        enum Action: Equatable {
+            case delete
+            case restore(Entity)
         }
-        items[key] = action
-    }
+        var items: [Entity.Key : Action] = [:]
 
-    mutating func reset() {
-        items.removeAll(keepingCapacity: true)
+        mutating func append(key: Entity.Key, action: Action) {
+            guard items[key] == nil else {
+                return
+            }
+            items[key] = action
+        }
+
+        mutating func removeAll() {
+            items.removeAll(keepingCapacity: true)
+        }
     }
 }
 
-extension Undo {
-    func getLatestPersistentValue(forKey key: Model.Key) -> Model? {
+extension Storage.Container.Backup {
+    typealias Entity = T
+
+    func getLatestPersistentValue(forKey key: Entity.Key) -> Entity? {
         guard let undo = items[key] else {
             return nil
         }
