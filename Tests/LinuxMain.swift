@@ -1,10 +1,10 @@
 import XCTest
 
-import StorageTests
 import StorageServerTests
+import StorageTests
 
 var tests = [XCTestCaseEntry]()
-tests += StorageTests.__allTests()
 tests += StorageServerTests.__allTests()
+tests += StorageTests.__allTests()
 
 XCTMain(tests)
