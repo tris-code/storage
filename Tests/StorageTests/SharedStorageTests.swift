@@ -81,6 +81,7 @@ final class SharedStorageTests: TestCase {
                     }
                     assertEqual(counter, Counter(id: "counter", value: 2))
                 }
+                async.loop.terminate()
             }
         }
 
