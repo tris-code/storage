@@ -12,7 +12,7 @@
 import Log
 import Fiber
 
-public class SharedStorage: StorageProtocol {
+public class SharedStorage {
     let storage: Storage
     let broadcast: Broadcast<Bool>
 
@@ -59,7 +59,6 @@ public class SharedStorage: StorageProtocol {
 
         return result
     }
-
 
     public func call(
         _ function: String,

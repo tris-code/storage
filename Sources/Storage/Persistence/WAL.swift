@@ -12,57 +12,67 @@
 import File
 import Stream
 
-struct Snapshot {
-    struct Header: Codable {
-        let name: Storage.Key
-        let count: Int
+struct WAL {
+    enum Record<T: Entity>: Equatable {
+        enum Action: String, Codable {
+            case upsert
+            case delete
+        }
+        case upsert(T)
+        case delete(T.Key)
+    }
+
+    enum Error: Swift.Error {
+        case cantDecode
+        case cantEncode
+        case cantOpenLog
     }
 
     class Reader<T: Entity> {
         let stream: StreamReader
         let decoder: StreamDecoder
 
-        init(from stream: StreamReader, decoder: StreamDecoder) throws {
+        init(from stream: StreamReader, decoder: StreamDecoder) {
             self.stream = stream
             self.decoder = decoder
         }
 
-        convenience init(from file: File, decoder: StreamDecoder) throws {
+        convenience
+        init(from file: File, decoder: StreamDecoder) throws {
             let file = try file.open(flags: .read)
-            try self.init(from: file.inputStream, decoder: decoder)
+            self.init(from: file.inputStream, decoder: decoder)
         }
 
-        func readHeader() throws -> Header? {
-            return try decoder.next(Header.self, from: stream)
-        }
-
-        func readNext() throws -> T? {
-            return try decoder.next(T.self, from: stream)
+        func readNext() throws -> Record<T>? {
+            return try decoder.next(Record<T>.self, from: stream)
         }
     }
 
     class Writer<T: Entity> {
-        let output: StreamWriter
+        var stream: StreamWriter
         let encoder: StreamEncoder
 
-        init(to file: File, encoder: StreamEncoder) throws {
-            try file.create()
-            let stream = try file.open(flags: [.create, .write]).outputStream
-            try stream.seek(to: .end)
-            self.output = stream
+        init(to stream: StreamWriter, encoder: StreamEncoder) {
+            self.stream = stream
             self.encoder = encoder
         }
 
-        func write(header: Header) throws {
-            try encoder.write(header, to: output)
+        convenience
+        init(to file: File, encoder: StreamEncoder) throws {
+            if !Directory.isExists(at: file.location) {
+                try Directory.create(at: file.location)
+            }
+            let stream = try file.open(flags: [.write, .create]).outputStream
+            try stream.seek(to: .end)
+            self.init(to: stream, encoder: encoder)
         }
 
-        func write(_ value: T) throws {
-            try encoder.write(value, to: output)
+        func append(_ record: Record<T>) throws {
+            try encoder.write(record, to: stream)
         }
 
         func flush() throws {
-            try output.flush()
+            try stream.flush()
         }
     }
 }
