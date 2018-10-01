@@ -112,7 +112,7 @@ extension Storage.Container: PersistentContainer {
         try restoreLog(name: logName, at: logPath)
     }
 
-    func restoreSnapshot(name: String, at: Path) throws {
+    func restoreSnapshot(name: String, at path: Path) throws {
         let snapshot = File(name: name, at: path)
         if snapshot.isExists {
             let reader = try Snapshot.Reader<T>(from: snapshot, decoder: coder)
@@ -123,7 +123,7 @@ extension Storage.Container: PersistentContainer {
         }
     }
 
-    func restoreLog(name: String, at: Path) throws {
+    func restoreLog(name: String, at path: Path) throws {
         let log = File(name: name, at: path)
         if log.isExists {
             let reader = try WAL.Reader<T>(from: log, decoder: coder)
