@@ -45,8 +45,10 @@ final class SharedStorageTests: TestCase {
             let container = try storage.container(for: Counter.self)
             try container.insert(Counter(id: "counter", value: 0))
 
-            storage.registerFunction(name: "increment")
-            { arguments -> Counter? in
+            let shared = SharedStorage(for: storage)
+
+            shared.registerProcedure(name: "increment", requires: Counter.self)
+            { container -> Counter? in
                 guard var counter = container.get("counter") else {
                     return nil
                 }
@@ -55,15 +57,14 @@ final class SharedStorageTests: TestCase {
                 return counter
             }
 
-            storage.registerFunction(name: "read") { arguments in
+            shared.registerProcedure(name: "read", requires: Counter.self)
+            { container in
                 return container.get("counter")
             }
 
-            let sharedStorage = SharedStorage(for: storage)
-
             async.task {
                 scope {
-                    let result = try sharedStorage.call("increment", with: [:])
+                    let result = try shared.call("increment")
                     guard let counter = result as? Counter else {
                         fail()
                         return
@@ -74,7 +75,7 @@ final class SharedStorageTests: TestCase {
 
             async.task {
                 scope {
-                    let result = try sharedStorage.call("increment", with: [:])
+                    let result = try shared.call("increment")
                     guard let counter = result as? Counter else {
                         fail()
                         return
