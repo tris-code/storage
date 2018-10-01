@@ -22,6 +22,7 @@ extension PersistenceTests {
     static let __allTests__PersistenceTests = [
         ("testContainerRecoveryFromLog", testContainerRecoveryFromLog),
         ("testContainerSnapshot", testContainerSnapshot),
+        ("testContainerSnapshotWithoutWAL", testContainerSnapshotWithoutWAL),
         ("testContainerWriteLog", testContainerWriteLog),
     ]
 }
