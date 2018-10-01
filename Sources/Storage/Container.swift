@@ -90,10 +90,10 @@ extension Storage.Container {
     public func select(skip: Int? = nil, take: Int? = nil) -> [T] {
         var items = self.items.lazy[...]
         if let skip = skip {
-            items = items.prefix(skip)
+            items = items.dropFirst(skip)
         }
         if let take = take {
-            items = items.suffix(take)
+            items = items.prefix(take)
         }
         return items.map({ $0.value })
     }
