@@ -14,7 +14,7 @@ import File
 @testable import Storage
 
 final class PersistenceTests: TestCase {
-    let temp = Path(string: "/tmp/PersistenceTests")
+    let temp = Path("/tmp/PersistenceTests")
 
     override func tearDown() {
         try? Directory.remove(at: temp)
@@ -65,7 +65,7 @@ final class PersistenceTests: TestCase {
 
         scope {
             let path = path.appending("User")
-            let file = File(name: "log", at: path)
+            let file = try File(name: "log", at: path)
             let wal = try WAL.Reader<User>(from: file)
             var records = [WAL.Record<User>]()
             while let next = try wal.readNext() {
@@ -101,7 +101,7 @@ final class PersistenceTests: TestCase {
 
         scope {
             let path = temp.appending(#function).appending("User")
-            let file = File(name: "log", at: path)
+            let file = try File(name: "log", at: path)
             let wal = try WAL.Writer<User>(to: file)
             try records.forEach(wal.append)
         }

@@ -14,7 +14,7 @@ import File
 @testable import Storage
 
 final class WALTests: TestCase {
-    let temp = Path(string: "/tmp/WALTests")
+    let temp = Path("/tmp/WALTests")
 
     override func tearDown() {
         try? Directory.remove(at: temp)
@@ -26,7 +26,7 @@ final class WALTests: TestCase {
                 var id: String
                 let name: String
             }
-            let wal = File(name: "log", at: temp.appending(#function))
+            let wal = try File(name: "log", at: temp.appending(#function))
             try wal.create()
             let reader = try WAL.Reader<User>(from: wal)
             assertNotNil(reader)
@@ -42,7 +42,7 @@ final class WALTests: TestCase {
         let user = User(id: "1", name: "Tony")
 
         var wal: File {
-            return File(name: "log", at: temp.appending(#function))
+            return try! File(name: "log", at: temp.appending(#function))
         }
 
         scope {
@@ -83,7 +83,7 @@ final class WALTests: TestCase {
         ]
 
         var wal: File {
-            return File(name: "log", at: temp.appending(#function))
+            return try! File(name: "log", at: temp.appending(#function))
         }
 
         scope {
