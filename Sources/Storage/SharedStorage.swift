@@ -70,7 +70,7 @@ public class SharedStorage {
 
     public func call(
         _ function: String,
-        using decoder: Decoder) throws -> Result
+        using decoder: Decoder? = nil) throws -> Result
     {
         return try syncronized {
             return try procedures.call(function, using: decoder)
