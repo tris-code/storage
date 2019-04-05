@@ -5,7 +5,7 @@ Swift-oriented DBMS. Embedded and Not. Yet.
 ## Package.swift
 
 ```swift
-.package(url: "https://github.com/tris-foundation/storage.git", .branch("master"))
+.package(url: "https://github.com/tris-code/storage.git", .branch("master"))
 ```
 
 ## Usage
