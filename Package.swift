@@ -8,33 +8,15 @@ let package = Package(
         .library(name: "Storage", targets: ["Storage"]),
     ],
     dependencies: [
-        .package(
-            url: "https://github.com/tris-code/async.git",
-            .branch("master")),
-        .package(
-            url: "https://github.com/tris-code/time.git",
-            .branch("master")),
-        .package(
-            url: "https://github.com/tris-code/aio.git",
-            .branch("master")),
-        .package(
-            url: "https://github.com/tris-code/json.git",
-            .branch("master")),
-        .package(
-            url: "https://github.com/tris-code/messagepack.git",
-            .branch("master")),
-        .package(
-            url: "https://github.com/tris-code/fiber.git",
-            .branch("master")),
-        .package(
-            url: "https://github.com/tris-code/http.git",
-            .branch("master")),
-        .package(
-            url: "https://github.com/tris-code/log.git",
-            .branch("master")),
-        .package(
-            url: "https://github.com/tris-code/test.git",
-            .branch("master"))
+        .package(path: "../Async"),
+        .package(path: "../Time"),
+        .package(path: "../AIO"),
+        .package(path: "../JSON"),
+        .package(path: "../MessagePack"),
+        .package(path: "../Fiber"),
+        .package(path: "../HTTP"),
+        .package(path: "../Log"),
+        .package(path: "../Test")
     ],
     targets: [
         .target(
