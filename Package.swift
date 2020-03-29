@@ -8,15 +8,15 @@ let package = Package(
         .library(name: "Storage", targets: ["Storage"]),
     ],
     dependencies: [
-        .package(path: "../Async"),
-        .package(path: "../Time"),
-        .package(path: "../AIO"),
-        .package(path: "../JSON"),
-        .package(path: "../MessagePack"),
-        .package(path: "../Fiber"),
-        .package(path: "../HTTP"),
-        .package(path: "../Log"),
-        .package(path: "../Test")
+        .package(path: "../async"),
+        .package(path: "../time"),
+        .package(path: "../aio"),
+        .package(path: "../json"),
+        .package(path: "../messagepack"),
+        .package(path: "../fiber"),
+        .package(path: "../http"),
+        .package(path: "../log"),
+        .package(path: "../test")
     ],
     targets: [
         .target(
